@@ -36,6 +36,9 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> endrecos = new ArrayList<>();
 
+	@OneToMany(mappedBy = "cliente")
+	private List<Aluguel> alugueis = new ArrayList<>();
+
 	public Cliente() {
 
 	}
@@ -103,6 +106,14 @@ public class Cliente implements Serializable {
 
 	public void setEndrecos(List<Endereco> endrecos) {
 		this.endrecos = endrecos;
+	}
+	
+	public List<Aluguel> getAlugueis() {
+		return alugueis;
+	}
+
+	public void setAlugueis(List<Aluguel> alugueis) {
+		this.alugueis = alugueis;
 	}
 
 	@Override

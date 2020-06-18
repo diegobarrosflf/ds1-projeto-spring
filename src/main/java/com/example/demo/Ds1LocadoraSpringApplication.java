@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,19 +8,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.example.demo.domain.Aluguel;
 import com.example.demo.domain.Categoria;
 import com.example.demo.domain.Cidade;
 import com.example.demo.domain.Cliente;
 import com.example.demo.domain.Endereco;
 import com.example.demo.domain.Estado;
 import com.example.demo.domain.Filme;
+import com.example.demo.domain.Pagamento;
+import com.example.demo.domain.PagamentoBoleto;
+import com.example.demo.domain.PagamentoCredito;
+import com.example.demo.domain.enums.EstadoPagamento;
 import com.example.demo.domain.enums.TipoCliente;
+import com.example.demo.repositories.AluguelRepository;
 import com.example.demo.repositories.CategoriaRepository;
 import com.example.demo.repositories.CidadeRepository;
 import com.example.demo.repositories.ClienteRepository;
 import com.example.demo.repositories.EnderecoRepository;
 import com.example.demo.repositories.EstadoRepository;
 import com.example.demo.repositories.FilmeRepository;
+import com.example.demo.repositories.PagamentoRepository;
 
 @SpringBootApplication
 public class Ds1LocadoraSpringApplication implements CommandLineRunner {
@@ -41,6 +49,12 @@ public class Ds1LocadoraSpringApplication implements CommandLineRunner {
 
 	@Autowired
 	EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	AluguelRepository aluguelRepository;
+
+	@Autowired
+	PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Ds1LocadoraSpringApplication.class, args);
@@ -94,7 +108,21 @@ public class Ds1LocadoraSpringApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
-
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+		
+		Aluguel a1 = new Aluguel(null, sdf.parse("17/06/2020 21:10"), cli1, end1);
+		Aluguel a2 = new Aluguel(null,sdf.parse("18/06/2020 08:10"), cli2, end2);
+		
+		Pagamento pag1 = new PagamentoCredito(null, EstadoPagamento.QUITADO, a1, 6);
+		Pagamento pag2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, a2, sdf.parse("19/06/2020 08:00"), null);
+		
+		a1.setPagamento(pag1);
+		a2.setPagamento(pag2);
+		
+		aluguelRepository.saveAll(Arrays.asList(a1,a2));
+		pagamentoRepository.saveAll(Arrays.asList(pag1,pag2));
+ 
 	}
 
 }
