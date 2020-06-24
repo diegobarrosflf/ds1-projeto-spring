@@ -36,6 +36,7 @@ public class Filme implements Serializable {
 			)
 	private List<Categoria> categorias = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.filme")	
 	private Set<ItemAluguel> itens = new HashSet<>();
 
@@ -50,6 +51,7 @@ public class Filme implements Serializable {
 		this.preco = preco;
 	}
 	
+	@JsonIgnore
 	public List<Aluguel> getAlugueis(){
 		return itens.stream().map(i -> i.getAluguel()).collect(Collectors.toList());
 	}

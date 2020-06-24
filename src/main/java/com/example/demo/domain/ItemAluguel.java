@@ -5,10 +5,13 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemAluguel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@EmbeddedId
 	private ItemAluguelPK id = new ItemAluguelPK();
 	
@@ -29,6 +32,7 @@ public class ItemAluguel implements Serializable {
 		this.preco = filme.getPreco();
 	}
 	
+	@JsonIgnore
 	public Aluguel getAluguel() {
 		return id.getAluguel();
 	}
