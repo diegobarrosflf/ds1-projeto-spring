@@ -15,6 +15,7 @@ import com.example.demo.domain.Cliente;
 import com.example.demo.domain.Endereco;
 import com.example.demo.domain.Estado;
 import com.example.demo.domain.Filme;
+import com.example.demo.domain.ItemAluguel;
 import com.example.demo.domain.Pagamento;
 import com.example.demo.domain.PagamentoBoleto;
 import com.example.demo.domain.PagamentoCredito;
@@ -27,6 +28,7 @@ import com.example.demo.repositories.ClienteRepository;
 import com.example.demo.repositories.EnderecoRepository;
 import com.example.demo.repositories.EstadoRepository;
 import com.example.demo.repositories.FilmeRepository;
+import com.example.demo.repositories.ItemAluguelRepository;
 import com.example.demo.repositories.PagamentoRepository;
 
 @SpringBootApplication
@@ -55,6 +57,9 @@ public class Ds1LocadoraSpringApplication implements CommandLineRunner {
 
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	ItemAluguelRepository itemAluguelRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Ds1LocadoraSpringApplication.class, args);
@@ -122,7 +127,22 @@ public class Ds1LocadoraSpringApplication implements CommandLineRunner {
 		
 		aluguelRepository.saveAll(Arrays.asList(a1,a2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1,pag2));
+		
+		ItemAluguel il1 = new ItemAluguel(a1,f1,0,1);
+		ItemAluguel il2 = new ItemAluguel(a2,f2,0,1);
+		ItemAluguel il3 = new ItemAluguel(a2,f3,0,1);
+		
+		a1.getItens().add(il1);
+		a2.getItens().addAll(Arrays.asList(il2,il3));
+		
+		f1.getItens().addAll(Arrays.asList(il1));
+		f2.getItens().addAll(Arrays.asList(il2));
+		f3.getItens().addAll(Arrays.asList(il3));
+		
+		itemAluguelRepository.saveAll(Arrays.asList(il1,il2,il3));
+		
  
 	}
 
 }
+

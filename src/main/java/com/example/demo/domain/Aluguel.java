@@ -2,6 +2,8 @@ package com.example.demo.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -31,6 +34,9 @@ public class Aluguel implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "endereco_id")
 	private Endereco enderecoDeEntrega;
+
+	@OneToMany(mappedBy = "id.aluguel")
+	private Set<ItemAluguel> itens = new HashSet<>();
 
 	public Aluguel() {
 
@@ -82,6 +88,14 @@ public class Aluguel implements Serializable {
 
 	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+	public Set<ItemAluguel> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemAluguel> itens) {
+		this.itens = itens;
 	}
 
 	@Override
